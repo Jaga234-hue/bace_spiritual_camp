@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
             fileInputButton.style.borderColor = '#4caf50';
             fileInputButton.style.color = '#2e7d32';
         } else {
-            fileInputButton.innerHTML = `<i class="fas fa-upload"></i> Upload Screenshot`;
+            fileInputButton.innerHTML = `<i class="fas fa-cloud-upload-alt"></i> Upload Screenshot`;
             fileInputButton.style.backgroundColor = '';
             fileInputButton.style.borderColor = '';
             fileInputButton.style.color = '';
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(function() {
             alert('Registration confirmed successfully! We will contact you soon.');
             form.reset();
-            fileInputButton.innerHTML = '<i class="fas fa-upload"></i> Upload Screenshot';
+            fileInputButton.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Upload Screenshot';
             fileInputButton.style.backgroundColor = '';
             fileInputButton.style.borderColor = '';
             fileInputButton.style.color = '';
@@ -127,18 +127,11 @@ document.addEventListener('DOMContentLoaded', function() {
         input.addEventListener('blur', function() {
             if (this.value.trim() !== '') {
                 this.style.backgroundColor = '#f0f8ff';
-                this.style.borderColor = '#6a11cb';
+                this.style.borderColor = '#4A00E0';
             } else {
                 this.style.backgroundColor = '';
                 this.style.borderColor = '';
             }
         });
-    });
-    
-    // Prevent form from being submitted on Enter key press
-    form.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' && e.target.type !== 'submit') {
-            e.preventDefault();
-        }
     });
 });
