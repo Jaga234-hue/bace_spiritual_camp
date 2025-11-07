@@ -152,10 +152,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (viewportHeight < 600) {
                 container.style.height = '97vh';
-                container.style.maxHeight = '580px';
             } else {
-                container.style.height = '90vh';
-                container.style.maxHeight = '700px';
+                container.style.height = '100vh';
             }
         }, 300);
     });

@@ -10,31 +10,24 @@ body {
     color: #333;
     line-height: 1.5;
     height: 100vh;
+    width: 100vw;
     overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 15px;
 }
 
 .container {
     width: 100%;
-    max-width: 400px;
-    height: 90vh;
-    max-height: 700px;
+    height: 100%;
     display: flex;
     flex-direction: column;
 }
 
 .card {
     background-color: white;
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    margin-bottom: 15px;
+    overflow: hidden;
+    margin-bottom: 10px;
 }
 
 .header {
@@ -46,14 +39,14 @@ body {
 }
 
 .header h1 {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     margin-bottom: 5px;
     font-weight: 600;
     letter-spacing: 0.5px;
 }
 
 .header p {
-    font-size: 0.9rem;
+    font-size: 1rem;
     opacity: 0.9;
 }
 
@@ -66,20 +59,20 @@ body {
 }
 
 .form-group {
-    margin-bottom: 16px;
+    margin-bottom: 20px;
 }
 
 label {
     display: block;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     font-weight: 500;
     color: #555;
-    font-size: 0.9rem;
+    font-size: 1rem;
 }
 
 input[type="text"] {
     width: 100%;
-    padding: 14px 16px;
+    padding: 16px;
     border: 2px solid #e1e1e1;
     border-radius: 10px;
     font-size: 1rem;
@@ -103,29 +96,29 @@ input[type="text"]:focus {
 .payment-section {
     background-color: #f8f9ff;
     border-radius: 10px;
-    padding: 16px;
-    margin: 16px 0;
+    padding: 20px;
+    margin: 20px 0;
     border: 2px dashed #6a11cb;
 }
 
 .payment-section h3 {
     color: #6a11cb;
-    margin-bottom: 12px;
-    font-size: 1.1rem;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
     text-align: center;
 }
 
 .payment-info {
     background-color: white;
     border-radius: 8px;
-    padding: 12px;
-    margin: 12px 0;
+    padding: 15px;
+    margin: 15px 0;
     border-left: 4px solid #6a11cb;
-    font-size: 0.9rem;
+    font-size: 1rem;
 }
 
 .payment-info p {
-    margin: 6px 0;
+    margin: 8px 0;
     display: flex;
     justify-content: space-between;
 }
@@ -137,10 +130,10 @@ input[type="text"]:focus {
 .btn {
     display: block;
     width: 100%;
-    padding: 16px;
+    padding: 18px;
     border: none;
     border-radius: 10px;
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -150,7 +143,7 @@ input[type="text"]:focus {
 .btn-pay {
     background: linear-gradient(to right, #4A00E0, #8E2DE2);
     color: white;
-    margin-bottom: 12px;
+    margin-bottom: 15px;
     box-shadow: 0 4px 15px rgba(106, 17, 203, 0.3);
 }
 
@@ -194,13 +187,13 @@ input[type="text"]:focus {
     justify-content: center;
     gap: 8px;
     background-color: #f0f0f0;
-    padding: 14px;
+    padding: 16px;
     border-radius: 10px;
     border: 2px dashed #ccc;
     font-weight: 500;
     color: #555;
     transition: all 0.3s ease;
-    font-size: 0.9rem;
+    font-size: 1rem;
 }
 
 .file-input-wrapper:active .file-input-button {
@@ -345,45 +338,35 @@ input[type="text"]:focus {
 
 /* Media queries for different screen sizes */
 @media (max-height: 700px) {
-    .container {
-        height: 95vh;
-        max-height: 650px;
-    }
-    
     .body {
-        padding: 16px;
+        padding: 15px;
     }
     
     .form-group {
-        margin-bottom: 14px;
+        margin-bottom: 15px;
     }
     
     .payment-section {
-        padding: 14px;
-        margin: 14px 0;
+        padding: 15px;
+        margin: 15px 0;
     }
     
     input[type="text"] {
-        padding: 12px 14px;
+        padding: 14px;
     }
     
     .btn {
-        padding: 14px;
+        padding: 16px;
     }
 }
 
 @media (max-height: 600px) {
-    .container {
-        height: 97vh;
-        max-height: 580px;
-    }
-    
     .header {
-        padding: 16px;
+        padding: 15px;
     }
     
     .body {
-        padding: 14px;
+        padding: 12px;
     }
     
     .form-group {
@@ -396,33 +379,17 @@ input[type="text"]:focus {
     }
     
     input[type="text"] {
-        padding: 10px 12px;
+        padding: 12px;
     }
     
     .btn {
-        padding: 12px;
+        padding: 14px;
     }
 }
 
 @media (max-width: 350px) {
-    .header {
-        padding: 16px;
-    }
-    
     .header h1 {
-        font-size: 1.4rem;
-    }
-    
-    .body {
-        padding: 14px;
-    }
-    
-    input[type="text"] {
-        padding: 12px 14px;
-    }
-    
-    .btn {
-        padding: 14px;
+        font-size: 1.5rem;
     }
     
     .popup-footer {
@@ -431,22 +398,5 @@ input[type="text"]:focus {
     
     .popup-footer .btn {
         width: 100%;
-    }
-}
-
-/* Support for various mobile browsers */
-@supports (-webkit-touch-callout: none) {
-    /* CSS specific to iOS devices */
-    input[type="text"] {
-        -webkit-appearance: none;
-        border-radius: 10px;
-    }
-}
-
-@supports (not (-webkit-touch-callout: none)) {
-    /* CSS for other than iOS devices */
-    body {
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
     }
 }
