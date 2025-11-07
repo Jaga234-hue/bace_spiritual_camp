@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spiritual Camp Registration</title>
+    <title>Sankalpa Camp Registration</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -38,6 +38,10 @@
             right: 0;
             z-index: 1000;
             background: linear-gradient(to right, #4A00E0, #8E2DE2);
+            height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
         
         /* Scrollable form with proper spacing */
@@ -105,6 +109,10 @@
         
         /* Extra small screens */
         @media (max-height: 700px) {
+            .fixed-header {
+                height: 70px;
+            }
+            
             .scrollable-form {
                 padding-top: 70px;
                 padding-bottom: 80px;
@@ -117,13 +125,14 @@
         
         /* Very small screens */
         @media (max-height: 600px) {
+            .fixed-header {
+                height: 65px;
+                padding: 12px 16px;
+            }
+            
             .scrollable-form {
                 padding-top: 65px;
                 padding-bottom: 75px;
-            }
-            
-            .fixed-header {
-                padding: 12px 16px;
             }
             
             .fixed-submit-btn {
