@@ -1,17 +1,11 @@
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('registrationForm');
-    const submitButton = document.getElementById('submitButton');
     const payButton = document.getElementById('payButton');
-    const fileInput = document.getElementById('screenshot');
-    const fileInputButton = document.querySelector('.file-input-button');
-    const previewPopup = document.getElementById('previewPopup');
-    const closePopup = document.getElementById('closePopup');
-    const editButton = document.getElementById('editButton');
-    const confirmButton = document.getElementById('confirmButton');
-    
+    const submitButton = document.getElementById('submitButton');
+    const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+
     // Handle payment button click
     payButton.addEventListener('click', function() {
-        // UPI deep link - this will try to open UPI apps if installed
         const upiId = '9861828508@ybl';
         const amount = '200';
         const name = 'Spiritual Camp';
@@ -28,133 +22,89 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('If UPI app did not open, please manually open your UPI app and send ₹200 to: ' + upiId);
         }, 500);
     });
-    
-    // Update file input button text when a file is selected
-    fileInput.addEventListener('change', function() {
-        if (this.files && this.files[0]) {
-            const fileName = this.files[0].name.length > 20 
-                ? this.files[0].name.substring(0, 17) + '...' 
-                : this.files[0].name;
-                
-            fileInputButton.textContent = fileName;
-            fileInputButton.style.backgroundColor = '#e8f5e9';
-            fileInputButton.style.borderColor = '#4caf50';
-            fileInputButton.style.color = '#2e7d32';
-        } else {
-            fileInputButton.textContent = 'Upload Screenshot';
-            fileInputButton.style.backgroundColor = '';
-            fileInputButton.style.borderColor = '';
-            fileInputButton.style.color = '';
-        }
-    });
-    
-    // Handle form submission preview
-    submitButton.addEventListener('click', function() {
+
+    // Handle form submission
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
         // Basic validation
         const name = document.getElementById('name').value;
         const regdNo = document.getElementById('regd_no').value;
         const roomNo = document.getElementById('room_no').value;
         const phoneNo = document.getElementById('phone_no').value;
         const screenshot = document.getElementById('screenshot').files[0];
-        const question = document.getElementById('any_question').value;
         
         if (!name || !regdNo || !roomNo || !phoneNo || !screenshot) {
             alert('Please fill in all required fields and upload payment screenshot.');
             return;
         }
         
-        // Phone number validation (basic)
+        // Phone number validation
         const phoneRegex = /^[0-9]{10}$/;
         const cleanPhone = phoneNo.replace(/\D/g, '');
         if (!phoneRegex.test(cleanPhone)) {
             alert('Please enter a valid 10-digit phone number.');
             return;
         }
-        
-        // Populate preview popup
-        document.getElementById('previewName').textContent = name;
-        document.getElementById('previewRegdNo').textContent = regdNo;
-        document.getElementById('previewRoomNo').textContent = roomNo;
-        document.getElementById('previewPhoneNo').textContent = phoneNo;
-        document.getElementById('previewScreenshot').textContent = screenshot ? screenshot.name : 'Not uploaded';
-        document.getElementById('previewQuestion').textContent = question || 'None';
-        
-        // Show the preview popup
-        previewPopup.classList.add('active');
-    });
-    
-    // Close popup
-    closePopup.addEventListener('click', function() {
-        previewPopup.classList.remove('active');
-    });
-    
-    // Edit button in popup
-    editButton.addEventListener('click', function() {
-        previewPopup.classList.remove('active');
-    });
-    
-    // Confirm registration
-    confirmButton.addEventListener('click', function() {
+
         // Show loading state
-        const originalText = confirmButton.innerHTML;
-        confirmButton.innerHTML = 'Processing...';
-        confirmButton.disabled = true;
-        
-        // Simulate form submission
-        setTimeout(function() {
-            alert('Registration confirmed successfully! We will contact you soon.');
-            form.reset();
-            fileInputButton.textContent = 'Upload Screenshot';
-            fileInputButton.style.backgroundColor = '';
-            fileInputButton.style.borderColor = '';
-            fileInputButton.style.color = '';
-            previewPopup.classList.remove('active');
-            confirmButton.innerHTML = originalText;
-            confirmButton.disabled = false;
-        }, 2000);
+        const originalText = submitButton.innerHTML;
+        submitButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processing...';
+        submitButton.disabled = true;
+
+        // Create FormData object
+        const formData = new FormData(form);
+
+        // Submit form via AJAX
+        fetch('submit.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Show success modal
+                successModal.show();
+                // Reset form
+                form.reset();
+            } else {
+                alert('Error: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while submitting the form.');
+        })
+        .finally(() => {
+            // Restore button state
+            submitButton.innerHTML = originalText;
+            submitButton.disabled = false;
+        });
     });
-    
-    // Close popup when clicking outside
-    previewPopup.addEventListener('click', function(e) {
-        if (e.target === previewPopup) {
-            previewPopup.classList.remove('active');
-        }
-    });
-    
+
     // Add input validation styles
-    const inputs = document.querySelectorAll('input[type="text"]');
+    const inputs = document.querySelectorAll('.form-control');
     inputs.forEach(input => {
         input.addEventListener('blur', function() {
             if (this.value.trim() !== '') {
-                this.style.backgroundColor = '#f0f8ff';
-                this.style.borderColor = '#6a11cb';
-            } else {
-                this.style.backgroundColor = '';
-                this.style.borderColor = '';
+                this.classList.add('is-valid');
+                this.classList.remove('is-invalid');
+            } else if (this.required) {
+                this.classList.add('is-invalid');
+                this.classList.remove('is-valid');
             }
         });
     });
-    
-    // Prevent form from being submitted on Enter key press
-    form.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' && e.target.type !== 'submit') {
-            e.preventDefault();
+
+    // File input validation
+    const fileInput = document.getElementById('screenshot');
+    fileInput.addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+            this.classList.add('is-valid');
+            this.classList.remove('is-invalid');
+        } else {
+            this.classList.add('is-invalid');
+            this.classList.remove('is-valid');
         }
-    });
-    
-    // Handle orientation change for better mobile experience
-    window.addEventListener('orientationchange', function() {
-        // Small delay to allow orientation to complete
-        setTimeout(function() {
-            // Adjust container height if needed
-            const container = document.querySelector('.container');
-            const viewportHeight = window.innerHeight;
-            
-            if (viewportHeight < 600) {
-                container.style.height = '97vh';
-            } else {
-                container.style.height = '100vh';
-            }
-        }, 300);
     });
 });
