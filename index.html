@@ -4,8 +4,405 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spiritual Camp Registration</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #333;
+            line-height: 1.5;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            height: 90vh;
+            max-height: 700px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+        }
+
+        .header {
+            background: linear-gradient(to right, #4A00E0, #8E2DE2);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .header h1 {
+            font-size: 1.6rem;
+            margin-bottom: 5px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .body {
+            padding: 20px;
+            overflow-y: auto;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e1e1;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            background-color: #f9f9f9;
+        }
+
+        input[type="text"]:focus {
+            border-color: #6a11cb;
+            background-color: white;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.1);
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #ccc, transparent);
+            margin: 20px 0;
+        }
+
+        .payment-section {
+            background-color: #f8f9ff;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            border: 2px dashed #6a11cb;
+        }
+
+        .payment-section h3 {
+            color: #6a11cb;
+            margin-bottom: 10px;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .payment-info {
+            background-color: white;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 12px 0;
+            border-left: 4px solid #6a11cb;
+            font-size: 0.9rem;
+        }
+
+        .payment-info p {
+            margin: 5px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .payment-info strong {
+            color: #4A00E0;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .btn-pay {
+            background: linear-gradient(to right, #4A00E0, #8E2DE2);
+            color: white;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 15px rgba(106, 17, 203, 0.3);
+        }
+
+        .btn-pay:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 10px rgba(106, 17, 203, 0.3);
+        }
+
+        .btn-submit {
+            background: linear-gradient(to right, #00b09b, #96c93d);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 176, 155, 0.3);
+            width: 100%;
+        }
+
+        .btn-submit:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 10px rgba(0, 176, 155, 0.3);
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-input-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background-color: #f0f0f0;
+            padding: 12px;
+            border-radius: 10px;
+            border: 2px dashed #ccc;
+            font-weight: 500;
+            color: #555;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .file-input-wrapper:active .file-input-button {
+            background-color: #e9e9e9;
+            border-color: #6a11cb;
+            color: #6a11cb;
+        }
+
+        /* Custom scrollbar for the form body */
+        .body::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .body::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .body::-webkit-scrollbar-thumb {
+            background: #c5c5c5;
+            border-radius: 10px;
+        }
+
+        .body::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+        /* Popup Styles */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .popup-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .popup-content {
+            background-color: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            max-height: 80vh;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            transform: translateY(20px);
+            transition: transform 0.4s ease;
+        }
+
+        .popup-overlay.active .popup-content {
+            transform: translateY(0);
+        }
+
+        .popup-header {
+            background: linear-gradient(to right, #4A00E0, #8E2DE2);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .popup-header h2 {
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .popup-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .popup-body {
+            padding: 20px;
+            max-height: 50vh;
+            overflow-y: auto;
+        }
+
+        .preview-item {
+            display: flex;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .preview-label {
+            font-weight: 600;
+            color: #555;
+            width: 45%;
+            flex-shrink: 0;
+        }
+
+        .preview-value {
+            color: #333;
+            word-break: break-word;
+        }
+
+        .popup-footer {
+            padding: 20px;
+            display: flex;
+            gap: 10px;
+            border-top: 1px solid #eee;
+        }
+
+        .popup-footer .btn {
+            width: auto;
+            flex: 1;
+            padding: 12px;
+        }
+
+        .btn-edit {
+            background: #f0f0f0;
+            color: #555;
+        }
+
+        .btn-confirm {
+            background: linear-gradient(to right, #00b09b, #96c93d);
+            color: white;
+        }
+
+        /* Media query for very small devices */
+        @media (max-height: 650px) {
+            .container {
+                height: 95vh;
+            }
+            
+            .body {
+                padding: 15px;
+            }
+            
+            .form-group {
+                margin-bottom: 12px;
+            }
+            
+            .payment-section {
+                padding: 12px;
+                margin: 12px 0;
+            }
+        }
+
+        @media (max-width: 350px) {
+            .header {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.4rem;
+            }
+            
+            .body {
+                padding: 15px;
+            }
+            
+            input[type="text"] {
+                padding: 10px 12px;
+            }
+            
+            .btn {
+                padding: 12px;
+            }
+            
+            .popup-footer {
+                flex-direction: column;
+            }
+            
+            .popup-footer .btn {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -17,26 +414,24 @@
             
             <div class="body">
                 <form id="registrationForm">
-                    <div class="form-section">
-                        <div class="form-group">
-                            <label for="name">Full Name</label>
-                            <input type="text" id="name" placeholder="Enter your full name" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="regd_no">Registration Number</label>
-                            <input type="text" id="regd_no" placeholder="Enter registration number" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="room_no">Room Number</label>
-                            <input type="text" id="room_no" placeholder="Enter room number" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="phone_no">Phone Number</label>
-                            <input type="text" id="phone_no" placeholder="Enter phone number" required>
-                        </div>
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" placeholder="Enter your full name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="regd_no">Registration Number</label>
+                        <input type="text" id="regd_no" placeholder="Enter registration number" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="room_no">Room Number</label>
+                        <input type="text" id="room_no" placeholder="Enter room number" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone_no">Phone Number</label>
+                        <input type="text" id="phone_no" placeholder="Enter phone number" required>
                     </div>
                     
                     <div class="divider"></div>
@@ -44,14 +439,8 @@
                     <div class="payment-section">
                         <h3>Payment Details</h3>
                         <div class="payment-info">
-                            <div class="payment-item">
-                                <span class="payment-label">Amount:</span>
-                                <span class="payment-value">₹200</span>
-                            </div>
-                            <div class="payment-item">
-                                <span class="payment-label">UPI ID:</span>
-                                <span class="payment-value">9861828508@ybl</span>
-                            </div>
+                            <p><strong>Amount:</strong> ₹200</p>
+                            <p><strong>UPI ID:</strong> 9861828508@ybl</p>
                         </div>
                         
                         <button type="button" class="btn btn-pay" id="payButton">
@@ -62,14 +451,12 @@
                             <label for="screenshot">Screenshot of your payment</label>
                             <div class="file-input-wrapper">
                                 <div class="file-input-button">
-                                    <i class="fas fa-cloud-upload-alt"></i> Upload Screenshot
+                                    Upload Screenshot
                                 </div>
                                 <input type="file" id="screenshot" accept="image/*" required>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="divider"></div>
                     
                     <div class="form-group">
                         <label for="any_question">Any Question</label>
@@ -79,7 +466,7 @@
             </div>
         </div>
         
-        <button type="submit" class="btn btn-submit" id="submitButton">
+        <button type="button" class="btn btn-submit" id="submitButton">
             Submit Registration
         </button>
     </div>
@@ -124,6 +511,151 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('registrationForm');
+            const submitButton = document.getElementById('submitButton');
+            const payButton = document.getElementById('payButton');
+            const fileInput = document.getElementById('screenshot');
+            const fileInputButton = document.querySelector('.file-input-button');
+            const previewPopup = document.getElementById('previewPopup');
+            const closePopup = document.getElementById('closePopup');
+            const editButton = document.getElementById('editButton');
+            const confirmButton = document.getElementById('confirmButton');
+            
+            // Handle payment button click
+            payButton.addEventListener('click', function() {
+                // UPI deep link - this will try to open UPI apps if installed
+                const upiId = '9861828508@ybl';
+                const amount = '200';
+                const name = 'Spiritual Camp';
+                const note = 'Spiritual Camp Registration Fee';
+                
+                // Create UPI URL
+                const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
+                
+                // Try to open UPI app
+                window.location.href = upiUrl;
+                
+                // Fallback: Show instructions if UPI app not available
+                setTimeout(function() {
+                    alert('If UPI app did not open, please manually open your UPI app and send ₹200 to: ' + upiId);
+                }, 500);
+            });
+            
+            // Update file input button text when a file is selected
+            fileInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    const fileName = this.files[0].name.length > 20 
+                        ? this.files[0].name.substring(0, 17) + '...' 
+                        : this.files[0].name;
+                        
+                    fileInputButton.textContent = fileName;
+                    fileInputButton.style.backgroundColor = '#e8f5e9';
+                    fileInputButton.style.borderColor = '#4caf50';
+                    fileInputButton.style.color = '#2e7d32';
+                } else {
+                    fileInputButton.textContent = 'Upload Screenshot';
+                    fileInputButton.style.backgroundColor = '';
+                    fileInputButton.style.borderColor = '';
+                    fileInputButton.style.color = '';
+                }
+            });
+            
+            // Handle form submission preview
+            submitButton.addEventListener('click', function() {
+                // Basic validation
+                const name = document.getElementById('name').value;
+                const regdNo = document.getElementById('regd_no').value;
+                const roomNo = document.getElementById('room_no').value;
+                const phoneNo = document.getElementById('phone_no').value;
+                const screenshot = document.getElementById('screenshot').files[0];
+                const question = document.getElementById('any_question').value;
+                
+                if (!name || !regdNo || !roomNo || !phoneNo || !screenshot) {
+                    alert('Please fill in all required fields and upload payment screenshot.');
+                    return;
+                }
+                
+                // Phone number validation (basic)
+                const phoneRegex = /^[0-9]{10}$/;
+                const cleanPhone = phoneNo.replace(/\D/g, '');
+                if (!phoneRegex.test(cleanPhone)) {
+                    alert('Please enter a valid 10-digit phone number.');
+                    return;
+                }
+                
+                // Populate preview popup
+                document.getElementById('previewName').textContent = name;
+                document.getElementById('previewRegdNo').textContent = regdNo;
+                document.getElementById('previewRoomNo').textContent = roomNo;
+                document.getElementById('previewPhoneNo').textContent = phoneNo;
+                document.getElementById('previewScreenshot').textContent = screenshot ? screenshot.name : 'Not uploaded';
+                document.getElementById('previewQuestion').textContent = question || 'None';
+                
+                // Show the preview popup
+                previewPopup.classList.add('active');
+            });
+            
+            // Close popup
+            closePopup.addEventListener('click', function() {
+                previewPopup.classList.remove('active');
+            });
+            
+            // Edit button in popup
+            editButton.addEventListener('click', function() {
+                previewPopup.classList.remove('active');
+            });
+            
+            // Confirm registration
+            confirmButton.addEventListener('click', function() {
+                // Show loading state
+                const originalText = confirmButton.innerHTML;
+                confirmButton.innerHTML = 'Processing...';
+                confirmButton.disabled = true;
+                
+                // Simulate form submission
+                setTimeout(function() {
+                    alert('Registration confirmed successfully! We will contact you soon.');
+                    form.reset();
+                    fileInputButton.textContent = 'Upload Screenshot';
+                    fileInputButton.style.backgroundColor = '';
+                    fileInputButton.style.borderColor = '';
+                    fileInputButton.style.color = '';
+                    previewPopup.classList.remove('active');
+                    confirmButton.innerHTML = originalText;
+                    confirmButton.disabled = false;
+                }, 2000);
+            });
+            
+            // Close popup when clicking outside
+            previewPopup.addEventListener('click', function(e) {
+                if (e.target === previewPopup) {
+                    previewPopup.classList.remove('active');
+                }
+            });
+            
+            // Add input validation styles
+            const inputs = document.querySelectorAll('input[type="text"]');
+            inputs.forEach(input => {
+                input.addEventListener('blur', function() {
+                    if (this.value.trim() !== '') {
+                        this.style.backgroundColor = '#f0f8ff';
+                        this.style.borderColor = '#6a11cb';
+                    } else {
+                        this.style.backgroundColor = '';
+                        this.style.borderColor = '';
+                    }
+                });
+            });
+            
+            // Prevent form from being submitted on Enter key press
+            form.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && e.target.type !== 'submit') {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
 </body>
 </html>
