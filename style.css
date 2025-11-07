@@ -14,7 +14,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 0px;
 }
 
 .container {
@@ -382,4 +382,5 @@ input[type="text"]:focus {
     .popup-footer .btn {
         width: 100%;
     }
+
 }
