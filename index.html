@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spiritual Camp Registration</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <h1>Spiritual Camp</h1>
+                <p>Registration Form</p>
+            </div>
+            
+            <div class="body">
+                <form id="registrationForm">
+                    <div class="form-group">
+                        <label for="name"><i class="fas fa-user"></i> Full Name</label>
+                        <input type="text" id="name" placeholder="Enter your full name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="regd_no"><i class="fas fa-id-card"></i> Registration Number</label>
+                        <input type="text" id="regd_no" placeholder="Enter registration number" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="room_no"><i class="fas fa-door-open"></i> Room Number</label>
+                        <input type="text" id="room_no" placeholder="Enter room number" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone_no"><i class="fas fa-phone"></i> Phone Number</label>
+                        <input type="text" id="phone_no" placeholder="Enter phone number" required>
+                    </div>
+                    
+                    <div class="payment-section">
+                        <h3><i class="fas fa-money-bill-wave"></i> Payment Details</h3>
+                        <div class="payment-info">
+                            <p><strong>Amount:</strong> ₹200</p>
+                            <p><strong>UPI ID:</strong> 9861828508@ybl</p>
+                        </div>
+                        
+                        <button type="button" class="btn btn-pay" id="payButton">
+                            <i class="fas fa-mobile-alt"></i> Pay ₹200 Using UPI
+                        </button>
+                        
+                        <div class="form-group">
+                            <label for="screenshot"><i class="fas fa-camera"></i> Payment Screenshot</label>
+                            <div class="file-input-wrapper">
+                                <div class="file-input-button">
+                                    <i class="fas fa-upload"></i> Upload Screenshot
+                                </div>
+                                <input type="file" id="screenshot" accept="image/*" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="any_question"><i class="fas fa-question-circle"></i> Any Questions?</label>
+                        <input type="text" id="any_question" placeholder="Enter your questions (optional)">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-submit">
+                        <i class="fas fa-paper-plane"></i> Submit Registration
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
