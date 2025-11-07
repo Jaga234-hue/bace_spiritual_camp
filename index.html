@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spiritual Camp Registration</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
@@ -17,26 +16,24 @@
             
             <div class="body">
                 <form id="registrationForm">
-                    <div class="form-section">
-                        <div class="form-group">
-                            <label for="name">Full Name</label>
-                            <input type="text" id="name" placeholder="Enter your full name" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="regd_no">Registration Number</label>
-                            <input type="text" id="regd_no" placeholder="Enter registration number" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="room_no">Room Number</label>
-                            <input type="text" id="room_no" placeholder="Enter room number" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="phone_no">Phone Number</label>
-                            <input type="text" id="phone_no" placeholder="Enter phone number" required>
-                        </div>
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" placeholder="Enter your full name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="regd_no">Registration Number</label>
+                        <input type="text" id="regd_no" placeholder="Enter registration number" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="room_no">Room Number</label>
+                        <input type="text" id="room_no" placeholder="Enter room number" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone_no">Phone Number</label>
+                        <input type="text" id="phone_no" placeholder="Enter phone number" required>
                     </div>
                     
                     <div class="divider"></div>
@@ -44,14 +41,8 @@
                     <div class="payment-section">
                         <h3>Payment Details</h3>
                         <div class="payment-info">
-                            <div class="payment-item">
-                                <span class="payment-label">Amount:</span>
-                                <span class="payment-value">₹200</span>
-                            </div>
-                            <div class="payment-item">
-                                <span class="payment-label">UPI ID:</span>
-                                <span class="payment-value">9861828508@ybl</span>
-                            </div>
+                            <p><strong>Amount:</strong> ₹200</p>
+                            <p><strong>UPI ID:</strong> 9861828508@ybl</p>
                         </div>
                         
                         <button type="button" class="btn btn-pay" id="payButton">
@@ -62,14 +53,12 @@
                             <label for="screenshot">Screenshot of your payment</label>
                             <div class="file-input-wrapper">
                                 <div class="file-input-button">
-                                    <i class="fas fa-cloud-upload-alt"></i> Upload Screenshot
+                                    Upload Screenshot
                                 </div>
                                 <input type="file" id="screenshot" accept="image/*" required>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="divider"></div>
                     
                     <div class="form-group">
                         <label for="any_question">Any Question</label>
@@ -79,7 +68,7 @@
             </div>
         </div>
         
-        <button type="submit" class="btn btn-submit" id="submitButton">
+        <button type="button" class="btn btn-submit" id="submitButton">
             Submit Registration
         </button>
     </div>

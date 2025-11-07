@@ -36,12 +36,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 ? this.files[0].name.substring(0, 17) + '...' 
                 : this.files[0].name;
                 
-            fileInputButton.innerHTML = `<i class="fas fa-check"></i> ${fileName}`;
+            fileInputButton.textContent = fileName;
             fileInputButton.style.backgroundColor = '#e8f5e9';
             fileInputButton.style.borderColor = '#4caf50';
             fileInputButton.style.color = '#2e7d32';
         } else {
-            fileInputButton.innerHTML = `<i class="fas fa-cloud-upload-alt"></i> Upload Screenshot`;
+            fileInputButton.textContent = 'Upload Screenshot';
             fileInputButton.style.backgroundColor = '';
             fileInputButton.style.borderColor = '';
             fileInputButton.style.color = '';
@@ -97,14 +97,14 @@ document.addEventListener('DOMContentLoaded', function() {
     confirmButton.addEventListener('click', function() {
         // Show loading state
         const originalText = confirmButton.innerHTML;
-        confirmButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+        confirmButton.innerHTML = 'Processing...';
         confirmButton.disabled = true;
         
         // Simulate form submission
         setTimeout(function() {
             alert('Registration confirmed successfully! We will contact you soon.');
             form.reset();
-            fileInputButton.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Upload Screenshot';
+            fileInputButton.textContent = 'Upload Screenshot';
             fileInputButton.style.backgroundColor = '';
             fileInputButton.style.borderColor = '';
             fileInputButton.style.color = '';
@@ -127,11 +127,36 @@ document.addEventListener('DOMContentLoaded', function() {
         input.addEventListener('blur', function() {
             if (this.value.trim() !== '') {
                 this.style.backgroundColor = '#f0f8ff';
-                this.style.borderColor = '#4A00E0';
+                this.style.borderColor = '#6a11cb';
             } else {
                 this.style.backgroundColor = '';
                 this.style.borderColor = '';
             }
         });
+    });
+    
+    // Prevent form from being submitted on Enter key press
+    form.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && e.target.type !== 'submit') {
+            e.preventDefault();
+        }
+    });
+    
+    // Handle orientation change for better mobile experience
+    window.addEventListener('orientationchange', function() {
+        // Small delay to allow orientation to complete
+        setTimeout(function() {
+            // Adjust container height if needed
+            const container = document.querySelector('.container');
+            const viewportHeight = window.innerHeight;
+            
+            if (viewportHeight < 600) {
+                container.style.height = '97vh';
+                container.style.maxHeight = '580px';
+            } else {
+                container.style.height = '90vh';
+                container.style.maxHeight = '700px';
+            }
+        }, 300);
     });
 });
