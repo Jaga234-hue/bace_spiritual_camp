@@ -31,7 +31,7 @@
         .scrollable-form {
             flex: 1;
             overflow-y: auto;
-            padding-bottom: 80px; /* Space for fixed submit button */
+            height: calc(100vh - 160px); /* Calculate height between header and submit button */
         }
         
         .fixed-submit-btn {
@@ -73,6 +73,73 @@
             .fixed-submit-btn {
                 padding-bottom: max(12px, env(safe-area-inset-bottom));
             }
+        }
+        
+        /* QR Code Modal */
+        .qr-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .qr-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            max-width: 90%;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .qr-code {
+            margin: 15px auto;
+            width: 200px;
+            height: 200px;
+            background-color: #f8f8f8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        
+        .payment-options {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .payment-option {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .payment-option.active {
+            border-color: #6a11cb;
+            background-color: #f3f4f6;
         }
     </style>
 </head>
@@ -148,6 +215,17 @@
                             </div>
                         </div>
                         
+                        <div class="payment-options mb-4">
+                            <div class="payment-option active" id="upiOption">
+                                <i class="fas fa-mobile-alt text-purple-600 mb-2"></i>
+                                <div class="text-sm font-medium">Pay with UPI</div>
+                            </div>
+                            <div class="payment-option" id="qrOption">
+                                <i class="fas fa-qrcode text-purple-600 mb-2"></i>
+                                <div class="text-sm font-medium">QR Code</div>
+                            </div>
+                        </div>
+                        
                         <button type="button" id="payButton" 
                                 class="w-full bg-gradient-to-r from-purple-600 to-purple-500 text-white py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl active:scale-95 transition-all duration-200 mb-4">
                             <i class="fas fa-mobile-alt mr-2"></i>Pay ₹200 Using UPI App
@@ -194,6 +272,29 @@
             <button type="button" id="submitButton" 
                     class="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-4 rounded-lg font-semibold text-lg shadow-lg hover:shadow-xl active:scale-95 transition-all duration-200">
                 <i class="fas fa-paper-plane mr-2"></i>Submit Registration
+            </button>
+        </div>
+    </div>
+    
+    <!-- QR Code Modal -->
+    <div id="qrModal" class="qr-modal">
+        <button class="close-btn" id="closeQrModal">&times;</button>
+        <div class="qr-content">
+            <h3 class="text-lg font-semibold text-purple-700 mb-2">Scan QR Code to Pay</h3>
+            <p class="text-gray-600 mb-4">Use any UPI app to scan this QR code</p>
+            <div class="qr-code">
+                <!-- This is a placeholder for the QR code -->
+                <div class="text-center text-gray-500">
+                    <i class="fas fa-qrcode text-4xl mb-2"></i>
+                    <p>QR Code Placeholder</p>
+                </div>
+            </div>
+            <div class="mt-4 text-sm text-gray-600">
+                <p>UPI ID: <span class="font-mono">9861828508@ybl</span></p>
+                <p>Amount: <span class="font-bold">₹200</span></p>
+            </div>
+            <button class="mt-4 w-full bg-purple-600 text-white py-2 rounded-lg font-medium hover:bg-purple-700 transition" id="closeQrButton">
+                Close
             </button>
         </div>
     </div>
@@ -257,25 +358,68 @@
             const closePopup = document.getElementById('closePopup');
             const editButton = document.getElementById('editButton');
             const confirmButton = document.getElementById('confirmButton');
+            const qrModal = document.getElementById('qrModal');
+            const closeQrModal = document.getElementById('closeQrModal');
+            const closeQrButton = document.getElementById('closeQrButton');
+            const upiOption = document.getElementById('upiOption');
+            const qrOption = document.getElementById('qrOption');
+            
+            let paymentMethod = 'upi'; // Default payment method
+            
+            // Handle payment method selection
+            upiOption.addEventListener('click', function() {
+                upiOption.classList.add('active');
+                qrOption.classList.remove('active');
+                paymentMethod = 'upi';
+                payButton.innerHTML = '<i class="fas fa-mobile-alt mr-2"></i>Pay ₹200 Using UPI App';
+            });
+            
+            qrOption.addEventListener('click', function() {
+                qrOption.classList.add('active');
+                upiOption.classList.remove('active');
+                paymentMethod = 'qr';
+                payButton.innerHTML = '<i class="fas fa-qrcode mr-2"></i>Show QR Code for Payment';
+            });
             
             // Handle payment button click
             payButton.addEventListener('click', function() {
-                const upiId = '9861828508@ybl';
-                const amount = '200';
-                const name = 'Spiritual Camp';
-                const note = 'Spiritual Camp Registration Fee';
-                
-                const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
-                
-                // Try to open UPI app
-                window.location.href = upiUrl;
-                
-                // Fallback message
-                setTimeout(function() {
-                    if (!document.hidden) {
-                        alert('If UPI app did not open, please manually open your UPI app and send ₹200 to: ' + upiId);
-                    }
-                }, 1000);
+                if (paymentMethod === 'upi') {
+                    const upiId = '9861828508@ybl';
+                    const amount = '200';
+                    const name = 'Spiritual Camp';
+                    const note = 'Spiritual Camp Registration Fee';
+                    
+                    const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
+                    
+                    // Try to open UPI app
+                    window.location.href = upiUrl;
+                    
+                    // Fallback message
+                    setTimeout(function() {
+                        if (!document.hidden) {
+                            alert('If UPI app did not open, please manually open your UPI app and send ₹200 to: ' + upiId);
+                        }
+                    }, 1000);
+                } else {
+                    // Show QR code modal
+                    qrModal.style.display = 'flex';
+                }
+            });
+            
+            // Close QR modal
+            closeQrModal.addEventListener('click', function() {
+                qrModal.style.display = 'none';
+            });
+            
+            closeQrButton.addEventListener('click', function() {
+                qrModal.style.display = 'none';
+            });
+            
+            // Close QR modal when clicking outside
+            qrModal.addEventListener('click', function(e) {
+                if (e.target === qrModal) {
+                    qrModal.style.display = 'none';
+                }
             });
             
             // Update file input display
@@ -422,5 +566,4 @@
         });
     </script>
 </body>
-
 </html>
