@@ -14,7 +14,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 15px;
+    padding: 20px;
 }
 
 .container {
@@ -22,6 +22,8 @@ body {
     max-width: 400px;
     height: 90vh;
     max-height: 700px;
+    display: flex;
+    flex-direction: column;
 }
 
 .card {
@@ -29,9 +31,10 @@ body {
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     overflow: hidden;
-    height: 100%;
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
+    margin-bottom: 20px;
 }
 
 .header {
@@ -158,8 +161,8 @@ input[type="text"]:focus {
 .btn-submit {
     background: linear-gradient(to right, #00b09b, #96c93d);
     color: white;
-    margin-top: 10px;
     box-shadow: 0 4px 15px rgba(0, 176, 155, 0.3);
+    width: 100%;
 }
 
 .btn-submit:active {
@@ -224,6 +227,121 @@ input[type="text"]:focus {
     background: #a8a8a8;
 }
 
+/* Popup Styles */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.popup-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.popup-content {
+    background-color: white;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 400px;
+    max-height: 80vh;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    transform: translateY(20px);
+    transition: transform 0.4s ease;
+}
+
+.popup-overlay.active .popup-content {
+    transform: translateY(0);
+}
+
+.popup-header {
+    background: linear-gradient(to right, #4A00E0, #8E2DE2);
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.popup-header h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.popup-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.8rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.popup-body {
+    padding: 20px;
+    max-height: 50vh;
+    overflow-y: auto;
+}
+
+.preview-item {
+    display: flex;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.preview-label {
+    font-weight: 600;
+    color: #555;
+    width: 45%;
+    flex-shrink: 0;
+}
+
+.preview-value {
+    color: #333;
+    word-break: break-word;
+}
+
+.popup-footer {
+    padding: 20px;
+    display: flex;
+    gap: 10px;
+    border-top: 1px solid #eee;
+}
+
+.popup-footer .btn {
+    width: auto;
+    flex: 1;
+    padding: 12px;
+}
+
+.btn-edit {
+    background: #f0f0f0;
+    color: #555;
+}
+
+.btn-confirm {
+    background: linear-gradient(to right, #00b09b, #96c93d);
+    color: white;
+}
+
 /* Media query for very small devices */
 @media (max-height: 650px) {
     .container {
@@ -263,5 +381,13 @@ input[type="text"]:focus {
     
     .btn {
         padding: 12px;
+    }
+    
+    .popup-footer {
+        flex-direction: column;
+    }
+    
+    .popup-footer .btn {
+        width: 100%;
     }
 }

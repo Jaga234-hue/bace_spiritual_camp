@@ -63,11 +63,51 @@
                         <label for="any_question"><i class="fas fa-question-circle"></i> Any Questions?</label>
                         <input type="text" id="any_question" placeholder="Enter your questions (optional)">
                     </div>
-                    
-                    <button type="submit" class="btn btn-submit">
-                        <i class="fas fa-paper-plane"></i> Submit Registration
-                    </button>
                 </form>
+            </div>
+        </div>
+        
+        <button type="submit" class="btn btn-submit" id="submitButton">
+            <i class="fas fa-paper-plane"></i> Submit Registration
+        </button>
+    </div>
+    
+    <!-- Preview Popup -->
+    <div class="popup-overlay" id="previewPopup">
+        <div class="popup-content">
+            <div class="popup-header">
+                <h2>Registration Preview</h2>
+                <button class="popup-close" id="closePopup">&times;</button>
+            </div>
+            <div class="popup-body">
+                <div class="preview-item">
+                    <span class="preview-label">Name:</span>
+                    <span class="preview-value" id="previewName"></span>
+                </div>
+                <div class="preview-item">
+                    <span class="preview-label">Registration No:</span>
+                    <span class="preview-value" id="previewRegdNo"></span>
+                </div>
+                <div class="preview-item">
+                    <span class="preview-label">Room No:</span>
+                    <span class="preview-value" id="previewRoomNo"></span>
+                </div>
+                <div class="preview-item">
+                    <span class="preview-label">Phone No:</span>
+                    <span class="preview-value" id="previewPhoneNo"></span>
+                </div>
+                <div class="preview-item">
+                    <span class="preview-label">Payment Screenshot:</span>
+                    <span class="preview-value" id="previewScreenshot"></span>
+                </div>
+                <div class="preview-item">
+                    <span class="preview-label">Questions:</span>
+                    <span class="preview-value" id="previewQuestion"></span>
+                </div>
+            </div>
+            <div class="popup-footer">
+                <button class="btn btn-edit" id="editButton">Edit Details</button>
+                <button class="btn btn-confirm" id="confirmButton">Confirm Registration</button>
             </div>
         </div>
     </div>

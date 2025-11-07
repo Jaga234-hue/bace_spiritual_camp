@@ -1,8 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('registrationForm');
+    const submitButton = document.getElementById('submitButton');
     const payButton = document.getElementById('payButton');
     const fileInput = document.getElementById('screenshot');
     const fileInputButton = document.querySelector('.file-input-button');
+    const previewPopup = document.getElementById('previewPopup');
+    const closePopup = document.getElementById('closePopup');
+    const editButton = document.getElementById('editButton');
+    const confirmButton = document.getElementById('confirmButton');
     
     // Handle payment button click
     payButton.addEventListener('click', function() {
@@ -43,16 +48,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Handle form submission
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
+    // Handle form submission preview
+    submitButton.addEventListener('click', function() {
         // Basic validation
         const name = document.getElementById('name').value;
         const regdNo = document.getElementById('regd_no').value;
         const roomNo = document.getElementById('room_no').value;
         const phoneNo = document.getElementById('phone_no').value;
         const screenshot = document.getElementById('screenshot').files[0];
+        const question = document.getElementById('any_question').value;
         
         if (!name || !regdNo || !roomNo || !phoneNo || !screenshot) {
             alert('Please fill in all required fields and upload payment screenshot.');
@@ -67,23 +71,54 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
+        // Populate preview popup
+        document.getElementById('previewName').textContent = name;
+        document.getElementById('previewRegdNo').textContent = regdNo;
+        document.getElementById('previewRoomNo').textContent = roomNo;
+        document.getElementById('previewPhoneNo').textContent = phoneNo;
+        document.getElementById('previewScreenshot').textContent = screenshot ? screenshot.name : 'Not uploaded';
+        document.getElementById('previewQuestion').textContent = question || 'None';
+        
+        // Show the preview popup
+        previewPopup.classList.add('active');
+    });
+    
+    // Close popup
+    closePopup.addEventListener('click', function() {
+        previewPopup.classList.remove('active');
+    });
+    
+    // Edit button in popup
+    editButton.addEventListener('click', function() {
+        previewPopup.classList.remove('active');
+    });
+    
+    // Confirm registration
+    confirmButton.addEventListener('click', function() {
         // Show loading state
-        const submitBtn = form.querySelector('.btn-submit');
-        const originalText = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-        submitBtn.disabled = true;
+        const originalText = confirmButton.innerHTML;
+        confirmButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+        confirmButton.disabled = true;
         
         // Simulate form submission
         setTimeout(function() {
-            alert('Registration submitted successfully! We will contact you soon.');
+            alert('Registration confirmed successfully! We will contact you soon.');
             form.reset();
             fileInputButton.innerHTML = '<i class="fas fa-upload"></i> Upload Screenshot';
             fileInputButton.style.backgroundColor = '';
             fileInputButton.style.borderColor = '';
             fileInputButton.style.color = '';
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
+            previewPopup.classList.remove('active');
+            confirmButton.innerHTML = originalText;
+            confirmButton.disabled = false;
         }, 2000);
+    });
+    
+    // Close popup when clicking outside
+    previewPopup.addEventListener('click', function(e) {
+        if (e.target === previewPopup) {
+            previewPopup.classList.remove('active');
+        }
     });
     
     // Add input validation styles
