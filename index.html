@@ -18,6 +18,7 @@
             height: 100vh;
             overflow: hidden;
             position: relative;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
         
         .mobile-container {
@@ -26,14 +27,29 @@
             display: flex;
             flex-direction: column;
             position: relative;
+            background: white;
         }
         
+        /* Fixed header with safe spacing */
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: linear-gradient(to right, #4A00E0, #8E2DE2);
+        }
+        
+        /* Scrollable form with proper spacing */
         .scrollable-form {
             flex: 1;
             overflow-y: auto;
-            height: calc(100vh - 160px); /* Calculate height between header and submit button */
+            padding-top: 80px; /* Space for fixed header */
+            padding-bottom: 90px; /* Space for fixed submit button */
+            -webkit-overflow-scrolling: touch;
         }
         
+        /* Fixed submit button with safe spacing */
         .fixed-submit-btn {
             position: fixed;
             bottom: 0;
@@ -42,11 +58,13 @@
             z-index: 1000;
             background: white;
             border-top: 1px solid #e5e7eb;
+            padding: 12px 16px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
         }
         
         /* Custom scrollbar */
         .scrollable-form::-webkit-scrollbar {
-            width: 6px;
+            width: 4px;
         }
         
         .scrollable-form::-webkit-scrollbar-track {
@@ -59,107 +77,78 @@
             border-radius: 10px;
         }
         
-        .scrollable-form::-webkit-scrollbar-thumb:hover {
-            background: #a8a8a8;
-        }
-        
-        /* Ensure form elements are mobile-friendly */
-        input, button {
-            font-size: 16px !important; /* Prevents zoom on iOS */
-        }
-        
         /* Safe area for notched phones */
         @supports(padding: max(0px)) {
+            .fixed-header {
+                padding-top: max(8px, env(safe-area-inset-top));
+            }
             .fixed-submit-btn {
                 padding-bottom: max(12px, env(safe-area-inset-bottom));
             }
         }
         
-        /* QR Code Modal */
-        .qr-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
+        /* Optimize for Indian mobile screens (360px-412px width) */
+        @media (max-width: 412px) {
+            .scrollable-form {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+            
+            .form-section {
+                margin-bottom: 20px;
+            }
+            
+            input, button {
+                font-size: 16px !important;
+            }
         }
         
-        .qr-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-            max-width: 90%;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        /* Extra small screens */
+        @media (max-height: 700px) {
+            .scrollable-form {
+                padding-top: 70px;
+                padding-bottom: 80px;
+            }
+            
+            .form-section {
+                margin-bottom: 16px;
+            }
         }
         
-        .qr-code {
-            margin: 15px auto;
-            width: 200px;
-            height: 200px;
-            background-color: #f8f8f8;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            border: 1px solid #e5e7eb;
-        }
-        
-        .close-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 24px;
-            color: white;
-            cursor: pointer;
-            background: none;
-            border: none;
-        }
-        
-        .payment-options {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .payment-option {
-            flex: 1;
-            padding: 12px;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .payment-option.active {
-            border-color: #6a11cb;
-            background-color: #f3f4f6;
+        /* Very small screens */
+        @media (max-height: 600px) {
+            .scrollable-form {
+                padding-top: 65px;
+                padding-bottom: 75px;
+            }
+            
+            .fixed-header {
+                padding: 12px 16px;
+            }
+            
+            .fixed-submit-btn {
+                padding: 10px 16px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="mobile-container bg-white">
+    <div class="mobile-container">
         <!-- Fixed Header -->
-        <div class="bg-gradient-to-r from-purple-700 to-purple-500 text-white p-6 text-center shadow-lg sticky top-0 z-50">
-            <h1 class="text-2xl font-bold">Spiritual Camp</h1>
-            <p class="text-white/90 mt-1">Registration Form</p>
+        <div class="fixed-header text-white p-4 text-center shadow-lg">
+            <h1 class="text-xl font-bold">Spiritual Camp</h1>
+            <p class="text-white/90 text-sm mt-1">Registration Form</p>
         </div>
         
         <!-- Scrollable Form Content -->
-        <div class="scrollable-form p-6">
+        <div class="scrollable-form p-4">
             <form id="registrationForm" action="submit.php" method="POST" enctype="multipart/form-data">
-                <div class="space-y-6">
+                <div class="space-y-5">
                     <!-- Personal Information -->
-                    <div class="space-y-4">
+                    <div class="space-y-4 form-section">
                         <div>
                             <label for="name" class="block text-sm font-medium text-gray-700 mb-2">
-                                <i class="fas fa-user mr-2"></i>Full Name
+                                Full Name
                             </label>
                             <input type="text" id="name" name="name" required 
                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200"
@@ -168,7 +157,7 @@
                         
                         <div>
                             <label for="regd_no" class="block text-sm font-medium text-gray-700 mb-2">
-                                <i class="fas fa-id-card mr-2"></i>Registration Number
+                                Registration Number
                             </label>
                             <input type="text" id="regd_no" name="regd_no" required 
                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200"
@@ -177,7 +166,7 @@
                         
                         <div>
                             <label for="room_no" class="block text-sm font-medium text-gray-700 mb-2">
-                                <i class="fas fa-door-open mr-2"></i>Room Number
+                                Room Number
                             </label>
                             <input type="text" id="room_no" name="room_no" required 
                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200"
@@ -186,25 +175,26 @@
                         
                         <div>
                             <label for="phone_no" class="block text-sm font-medium text-gray-700 mb-2">
-                                <i class="fas fa-phone mr-2"></i>Phone Number
+                                Phone Number
                             </label>
                             <input type="tel" id="phone_no" name="phone_no" required 
                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200"
-                                   placeholder="Enter phone number"
-                                   pattern="[0-9]{10}">
+                                   placeholder="Enter 10-digit phone number"
+                                   pattern="[0-9]{10}"
+                                   maxlength="10">
                         </div>
                     </div>
                     
                     <!-- Divider -->
-                    <div class="border-t border-gray-200 my-6"></div>
+                    <div class="border-t border-gray-200 my-4"></div>
                     
                     <!-- Payment Section -->
-                    <div class="bg-purple-50 border-2 border-dashed border-purple-500 rounded-xl p-5">
-                        <h3 class="text-lg font-semibold text-purple-700 text-center mb-4">
-                            <i class="fas fa-money-bill-wave mr-2"></i>Payment Details
+                    <div class="bg-purple-50 border-2 border-dashed border-purple-500 rounded-xl p-4 form-section">
+                        <h3 class="text-lg font-semibold text-purple-700 text-center mb-3">
+                            Payment Details
                         </h3>
                         
-                        <div class="bg-white rounded-lg p-4 border-l-4 border-purple-500 mb-4">
+                        <div class="bg-white rounded-lg p-3 border-l-4 border-purple-500 mb-3">
                             <div class="flex justify-between py-1">
                                 <span class="font-medium">Amount:</span>
                                 <span class="font-bold text-purple-700">₹200</span>
@@ -215,133 +205,94 @@
                             </div>
                         </div>
                         
-                        <div class="payment-options mb-4">
-                            <div class="payment-option active" id="upiOption">
-                                <i class="fas fa-mobile-alt text-purple-600 mb-2"></i>
-                                <div class="text-sm font-medium">Pay with UPI</div>
-                            </div>
-                            <div class="payment-option" id="qrOption">
-                                <i class="fas fa-qrcode text-purple-600 mb-2"></i>
-                                <div class="text-sm font-medium">QR Code</div>
-                            </div>
-                        </div>
-                        
                         <button type="button" id="payButton" 
-                                class="w-full bg-gradient-to-r from-purple-600 to-purple-500 text-white py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl active:scale-95 transition-all duration-200 mb-4">
-                            <i class="fas fa-mobile-alt mr-2"></i>Pay ₹200 Using UPI App
+                                class="w-full bg-gradient-to-r from-purple-600 to-purple-500 text-white py-3 rounded-lg font-semibold shadow-lg active:scale-95 transition-all duration-200 mb-3">
+                            Pay ₹200 Using UPI App
                         </button>
                         
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
-                                <i class="fas fa-camera mr-2"></i>Screenshot of your payment
+                                Payment Screenshot
                             </label>
                             <div class="relative">
                                 <input type="file" id="screenshot" name="screenshot" accept="image/*" required 
                                        class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
-                                <div id="fileInputDisplay" class="border-2 border-dashed border-gray-300 rounded-lg py-4 text-center text-gray-500 bg-gray-50 hover:bg-gray-100 transition-all duration-200">
-                                    <i class="fas fa-upload mr-2"></i>Upload Payment Screenshot
+                                <div id="fileInputDisplay" class="border-2 border-dashed border-gray-300 rounded-lg py-3 text-center text-gray-500 bg-gray-50 active:bg-gray-100 transition-all duration-200">
+                                    <span class="text-sm">Upload Payment Screenshot</span>
                                 </div>
                             </div>
-                            <p class="text-xs text-gray-500 mt-2">Supported formats: JPG, PNG, GIF (Max 5MB)</p>
+                            <p class="text-xs text-gray-500 mt-1">JPG, PNG, GIF (Max 5MB)</p>
                         </div>
                     </div>
                     
                     <!-- Questions -->
-                    <div>
+                    <div class="form-section">
                         <label for="any_question" class="block text-sm font-medium text-gray-700 mb-2">
-                            <i class="fas fa-question-circle mr-2"></i>Any Question
+                            Any Questions
                         </label>
                         <input type="text" id="any_question" name="any_question" 
                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200"
                                placeholder="Enter your questions (optional)">
                     </div>
-                     <div style = "height:50px;">
-                        <label for="any_question" class="block text-sm font-medium text-gray-700 mb-2">
-                            <i class="fas fa-question-circle mr-2"></i>click on submit
-                        </label>
-                        <label for="any_question" class="block text-sm font-medium text-gray-700 mb-2">
-                            <i class="fas fa-question-circle mr-2"></i>click on submit
-                        </label>
-                    </div>
+                    
+                    <!-- Extra spacing at bottom to ensure last element is visible -->
+                    <div class="h-4"></div>
                 </div>
             </form>
         </div>
         
         <!-- Fixed Submit Button - ALWAYS VISIBLE -->
-        <div class="fixed-submit-btn p-4">
+        <div class="fixed-submit-btn">
             <button type="button" id="submitButton" 
-                    class="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-4 rounded-lg font-semibold text-lg shadow-lg hover:shadow-xl active:scale-95 transition-all duration-200">
-                <i class="fas fa-paper-plane mr-2"></i>Submit Registration
-            </button>
-        </div>
-    </div>
-    
-    <!-- QR Code Modal -->
-    <div id="qrModal" class="qr-modal">
-        <button class="close-btn" id="closeQrModal">&times;</button>
-        <div class="qr-content">
-            <h3 class="text-lg font-semibold text-purple-700 mb-2">Scan QR Code to Pay</h3>
-            <p class="text-gray-600 mb-4">Use any UPI app to scan this QR code</p>
-            <div class="qr-code">
-                <!-- This is a placeholder for the QR code -->
-                <div class="text-center text-gray-500">
-                    <i class="fas fa-qrcode text-4xl mb-2"></i>
-                    <p>QR Code Placeholder</p>
-                </div>
-            </div>
-            <div class="mt-4 text-sm text-gray-600">
-                <p>UPI ID: <span class="font-mono">9861828508@ybl</span></p>
-                <p>Amount: <span class="font-bold">₹200</span></p>
-            </div>
-            <button class="mt-4 w-full bg-purple-600 text-white py-2 rounded-lg font-medium hover:bg-purple-700 transition" id="closeQrButton">
-                Close
+                    class="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-3 rounded-lg font-semibold text-base shadow-lg active:scale-95 transition-all duration-200">
+                Submit Registration
             </button>
         </div>
     </div>
     
     <!-- Preview Popup -->
-    <div id="previewPopup" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden p-4">
-        <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl">
-            <div class="bg-gradient-to-r from-purple-700 to-purple-500 text-white p-5 flex justify-between items-center">
-                <h2 class="text-xl font-bold">Registration Preview</h2>
-                <button id="closePopup" class="text-white text-2xl hover:text-gray-200 transition">&times;</button>
+    <div id="previewPopup" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden px-4">
+        <div class="bg-white rounded-2xl w-full max-w-sm overflow-hidden shadow-2xl">
+            <div class="bg-gradient-to-r from-purple-700 to-purple-500 text-white p-4 flex justify-between items-center">
+                <h2 class="text-lg font-bold">Registration Preview</h2>
+                <button id="closePopup" class="text-white text-xl active:scale-95 transition">&times;</button>
             </div>
             
-            <div class="p-5 max-h-96 overflow-y-auto">
-                <div class="space-y-4">
-                    <div class="flex justify-between border-b pb-2">
+            <div class="p-4 max-h-60 overflow-y-auto">
+                <div class="space-y-3 text-sm">
+                    <div class="flex justify-between">
                         <span class="font-medium text-gray-600">Name:</span>
                         <span id="previewName" class="text-gray-800 text-right"></span>
                     </div>
-                    <div class="flex justify-between border-b pb-2">
+                    <div class="flex justify-between">
                         <span class="font-medium text-gray-600">Registration No:</span>
                         <span id="previewRegdNo" class="text-gray-800 text-right"></span>
                     </div>
-                    <div class="flex justify-between border-b pb-2">
+                    <div class="flex justify-between">
                         <span class="font-medium text-gray-600">Room No:</span>
                         <span id="previewRoomNo" class="text-gray-800 text-right"></span>
                     </div>
-                    <div class="flex justify-between border-b pb-2">
+                    <div class="flex justify-between">
                         <span class="font-medium text-gray-600">Phone No:</span>
                         <span id="previewPhoneNo" class="text-gray-800 text-right"></span>
                     </div>
-                    <div class="flex justify-between border-b pb-2">
-                        <span class="font-medium text-gray-600">Payment Screenshot:</span>
-                        <span id="previewScreenshot" class="text-gray-800 text-right text-sm"></span>
+                    <div class="flex justify-between">
+                        <span class="font-medium text-gray-600">Screenshot:</span>
+                        <span id="previewScreenshot" class="text-gray-800 text-right text-xs"></span>
                     </div>
-                    <div class="flex justify-between border-b pb-2">
+                    <div class="flex justify-between">
                         <span class="font-medium text-gray-600">Questions:</span>
                         <span id="previewQuestion" class="text-gray-800 text-right"></span>
                     </div>
                 </div>
             </div>
             
-            <div class="p-5 border-t flex gap-3">
-                <button id="editButton" class="flex-1 bg-gray-200 text-gray-800 py-3 rounded-lg font-semibold hover:bg-gray-300 active:scale-95 transition-all duration-200">
-                    Edit Details
+            <div class="p-4 border-t flex gap-2">
+                <button id="editButton" class="flex-1 bg-gray-200 text-gray-800 py-2 rounded-lg font-semibold text-sm active:scale-95 transition-all duration-200">
+                    Edit
                 </button>
-                <button id="confirmButton" class="flex-1 bg-gradient-to-r from-green-500 to-green-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg active:scale-95 transition-all duration-200">
-                    Confirm Registration
+                <button id="confirmButton" class="flex-1 bg-gradient-to-r from-green-500 to-green-600 text-white py-2 rounded-lg font-semibold text-sm active:scale-95 transition-all duration-200">
+                    Confirm
                 </button>
             </div>
         </div>
@@ -358,68 +309,23 @@
             const closePopup = document.getElementById('closePopup');
             const editButton = document.getElementById('editButton');
             const confirmButton = document.getElementById('confirmButton');
-            const qrModal = document.getElementById('qrModal');
-            const closeQrModal = document.getElementById('closeQrModal');
-            const closeQrButton = document.getElementById('closeQrButton');
-            const upiOption = document.getElementById('upiOption');
-            const qrOption = document.getElementById('qrOption');
-            
-            let paymentMethod = 'upi'; // Default payment method
-            
-            // Handle payment method selection
-            upiOption.addEventListener('click', function() {
-                upiOption.classList.add('active');
-                qrOption.classList.remove('active');
-                paymentMethod = 'upi';
-                payButton.innerHTML = '<i class="fas fa-mobile-alt mr-2"></i>Pay ₹200 Using UPI App';
-            });
-            
-            qrOption.addEventListener('click', function() {
-                qrOption.classList.add('active');
-                upiOption.classList.remove('active');
-                paymentMethod = 'qr';
-                payButton.innerHTML = '<i class="fas fa-qrcode mr-2"></i>Show QR Code for Payment';
-            });
             
             // Handle payment button click
             payButton.addEventListener('click', function() {
-                if (paymentMethod === 'upi') {
-                    const upiId = '9861828508@ybl';
-                    const amount = '200';
-                    const name = 'Spiritual Camp';
-                    const note = 'Spiritual Camp Registration Fee';
-                    
-                    const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
-                    
-                    // Try to open UPI app
-                    window.location.href = upiUrl;
-                    
-                    // Fallback message
-                    setTimeout(function() {
-                        if (!document.hidden) {
-                            alert('If UPI app did not open, please manually open your UPI app and send ₹200 to: ' + upiId);
-                        }
-                    }, 1000);
-                } else {
-                    // Show QR code modal
-                    qrModal.style.display = 'flex';
-                }
-            });
-            
-            // Close QR modal
-            closeQrModal.addEventListener('click', function() {
-                qrModal.style.display = 'none';
-            });
-            
-            closeQrButton.addEventListener('click', function() {
-                qrModal.style.display = 'none';
-            });
-            
-            // Close QR modal when clicking outside
-            qrModal.addEventListener('click', function(e) {
-                if (e.target === qrModal) {
-                    qrModal.style.display = 'none';
-                }
+                const upiId = '9861828508@ybl';
+                const amount = '200';
+                const name = 'Spiritual Camp';
+                const note = 'Spiritual Camp Registration Fee';
+                
+                const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
+                
+                // Try to open UPI app
+                window.location.href = upiUrl;
+                
+                // Fallback message
+                setTimeout(function() {
+                    alert('If UPI app did not open, please send ₹200 to: ' + upiId);
+                }, 1000);
             });
             
             // Update file input display
@@ -430,12 +336,12 @@
                         ? file.name.substring(0, 17) + '...' 
                         : file.name;
                         
-                    fileInputDisplay.innerHTML = `<i class="fas fa-check mr-2"></i>${fileName}`;
+                    fileInputDisplay.innerHTML = `<span class="text-sm text-green-700">${fileName}</span>`;
                     fileInputDisplay.classList.remove('text-gray-500', 'bg-gray-50', 'border-gray-300');
-                    fileInputDisplay.classList.add('text-green-700', 'bg-green-50', 'border-green-400');
+                    fileInputDisplay.classList.add('bg-green-50', 'border-green-400');
                 } else {
-                    fileInputDisplay.innerHTML = '<i class="fas fa-upload mr-2"></i>Upload Payment Screenshot';
-                    fileInputDisplay.classList.remove('text-green-700', 'bg-green-50', 'border-green-400');
+                    fileInputDisplay.innerHTML = '<span class="text-sm text-gray-500">Upload Payment Screenshot</span>';
+                    fileInputDisplay.classList.remove('bg-green-50', 'border-green-400');
                     fileInputDisplay.classList.add('text-gray-500', 'bg-gray-50', 'border-gray-300');
                 }
             });
@@ -475,8 +381,7 @@
                 }
                 
                 const phoneRegex = /^[0-9]{10}$/;
-                const cleanPhone = phoneNo.replace(/\D/g, '');
-                if (!phoneRegex.test(cleanPhone)) {
+                if (!phoneRegex.test(phoneNo)) {
                     alert('Please enter a valid 10-digit phone number.');
                     document.getElementById('phone_no').focus();
                     return;
@@ -514,7 +419,7 @@
             confirmButton.addEventListener('click', function() {
                 // Show loading state
                 const originalText = confirmButton.innerHTML;
-                confirmButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Processing...';
+                confirmButton.innerHTML = 'Processing...';
                 confirmButton.disabled = true;
                 
                 // Submit the form
@@ -528,33 +433,12 @@
                 }
             });
             
-            // Add input validation styles
-            const inputs = document.querySelectorAll('input[type="text"], input[type="tel"]');
-            inputs.forEach(input => {
-                input.addEventListener('blur', function() {
-                    if (this.value.trim() !== '') {
-                        this.classList.add('border-green-400', 'bg-green-50');
-                    } else {
-                        this.classList.remove('border-green-400', 'bg-green-50');
-                    }
-                });
-                
-                // Real-time validation for phone number
-                if (input.id === 'phone_no') {
-                    input.addEventListener('input', function() {
-                        this.value = this.value.replace(/\D/g, '').substring(0, 10);
-                    });
-                }
+            // Phone number validation - only numbers
+            document.getElementById('phone_no').addEventListener('input', function() {
+                this.value = this.value.replace(/\D/g, '').substring(0, 10);
             });
             
-            // Prevent form from being submitted on Enter key press
-            form.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' && e.target.type !== 'submit') {
-                    e.preventDefault();
-                }
-            });
-            
-            // Handle mobile viewport height issues
+            // Handle viewport height for mobile
             function setViewportHeight() {
                 let vh = window.innerHeight * 0.01;
                 document.documentElement.style.setProperty('--vh', `${vh}px`);
