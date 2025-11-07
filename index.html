@@ -7,15 +7,41 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
             background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
             height: 100vh;
             overflow: hidden;
+            position: relative;
+        }
+        
+        .mobile-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
         }
         
         .scrollable-form {
-            height: calc(100vh - 180px);
+            flex: 1;
             overflow-y: auto;
+            padding-bottom: 80px; /* Space for fixed submit button */
+        }
+        
+        .fixed-submit-btn {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: white;
+            border-top: 1px solid #e5e7eb;
         }
         
         /* Custom scrollbar */
@@ -36,14 +62,26 @@
         .scrollable-form::-webkit-scrollbar-thumb:hover {
             background: #a8a8a8;
         }
+        
+        /* Ensure form elements are mobile-friendly */
+        input, button {
+            font-size: 16px !important; /* Prevents zoom on iOS */
+        }
+        
+        /* Safe area for notched phones */
+        @supports(padding: max(0px)) {
+            .fixed-submit-btn {
+                padding-bottom: max(12px, env(safe-area-inset-bottom));
+            }
+        }
     </style>
 </head>
-<body class="flex items-center justify-center p-0 m-0">
-    <div class="w-full h-full flex flex-col bg-white">
+<body>
+    <div class="mobile-container bg-white">
         <!-- Fixed Header -->
-        <div class="bg-gradient-to-r from-purple-700 to-purple-500 text-white p-6 text-center shadow-lg">
+        <div class="bg-gradient-to-r from-purple-700 to-purple-500 text-white p-6 text-center shadow-lg sticky top-0 z-50">
             <h1 class="text-2xl font-bold">Spiritual Camp</h1>
-            <p class="text-white/90">Registration Form</p>
+            <p class="text-white/90 mt-1">Registration Form</p>
         </div>
         
         <!-- Scrollable Form Content -->
@@ -57,7 +95,7 @@
                                 <i class="fas fa-user mr-2"></i>Full Name
                             </label>
                             <input type="text" id="name" name="name" required 
-                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200"
                                    placeholder="Enter your full name">
                         </div>
                         
@@ -66,7 +104,7 @@
                                 <i class="fas fa-id-card mr-2"></i>Registration Number
                             </label>
                             <input type="text" id="regd_no" name="regd_no" required 
-                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200"
                                    placeholder="Enter registration number">
                         </div>
                         
@@ -75,7 +113,7 @@
                                 <i class="fas fa-door-open mr-2"></i>Room Number
                             </label>
                             <input type="text" id="room_no" name="room_no" required 
-                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200"
                                    placeholder="Enter room number">
                         </div>
                         
@@ -83,9 +121,10 @@
                             <label for="phone_no" class="block text-sm font-medium text-gray-700 mb-2">
                                 <i class="fas fa-phone mr-2"></i>Phone Number
                             </label>
-                            <input type="text" id="phone_no" name="phone_no" required 
-                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
-                                   placeholder="Enter phone number">
+                            <input type="tel" id="phone_no" name="phone_no" required 
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200"
+                                   placeholder="Enter phone number"
+                                   pattern="[0-9]{10}">
                         </div>
                     </div>
                     
@@ -105,12 +144,12 @@
                             </div>
                             <div class="flex justify-between py-1">
                                 <span class="font-medium">UPI ID:</span>
-                                <span class="font-mono">9861828508@ybl</span>
+                                <span class="font-mono text-sm">9861828508@ybl</span>
                             </div>
                         </div>
                         
                         <button type="button" id="payButton" 
-                                class="w-full bg-gradient-to-r from-purple-600 to-purple-500 text-white py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl transition mb-4">
+                                class="w-full bg-gradient-to-r from-purple-600 to-purple-500 text-white py-4 rounded-lg font-semibold shadow-lg hover:shadow-xl active:scale-95 transition-all duration-200 mb-4">
                             <i class="fas fa-mobile-alt mr-2"></i>Pay ₹200 Using UPI App
                         </button>
                         
@@ -120,11 +159,12 @@
                             </label>
                             <div class="relative">
                                 <input type="file" id="screenshot" name="screenshot" accept="image/*" required 
-                                       class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
-                                <div class="border-2 border-dashed border-gray-300 rounded-lg py-4 text-center text-gray-500 bg-gray-50 hover:bg-gray-100 transition">
+                                       class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                                <div id="fileInputDisplay" class="border-2 border-dashed border-gray-300 rounded-lg py-4 text-center text-gray-500 bg-gray-50 hover:bg-gray-100 transition-all duration-200">
                                     <i class="fas fa-upload mr-2"></i>Upload Payment Screenshot
                                 </div>
                             </div>
+                            <p class="text-xs text-gray-500 mt-2">Supported formats: JPG, PNG, GIF (Max 5MB)</p>
                         </div>
                     </div>
                     
@@ -134,64 +174,64 @@
                             <i class="fas fa-question-circle mr-2"></i>Any Question
                         </label>
                         <input type="text" id="any_question" name="any_question" 
-                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200"
                                placeholder="Enter your questions (optional)">
                     </div>
                 </div>
             </form>
         </div>
         
-        <!-- Fixed Submit Button -->
-        <div class="p-4 bg-white border-t border-gray-200">
+        <!-- Fixed Submit Button - ALWAYS VISIBLE -->
+        <div class="fixed-submit-btn p-4">
             <button type="button" id="submitButton" 
-                    class="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-4 rounded-lg font-semibold text-lg shadow-lg hover:shadow-xl transition">
+                    class="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-4 rounded-lg font-semibold text-lg shadow-lg hover:shadow-xl active:scale-95 transition-all duration-200">
                 <i class="fas fa-paper-plane mr-2"></i>Submit Registration
             </button>
         </div>
     </div>
     
     <!-- Preview Popup -->
-    <div id="previewPopup" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden">
-        <div class="bg-white rounded-2xl w-11/12 max-w-md overflow-hidden shadow-2xl">
+    <div id="previewPopup" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden p-4">
+        <div class="bg-white rounded-2xl w-full max-w-md overflow-hidden shadow-2xl">
             <div class="bg-gradient-to-r from-purple-700 to-purple-500 text-white p-5 flex justify-between items-center">
                 <h2 class="text-xl font-bold">Registration Preview</h2>
-                <button id="closePopup" class="text-white text-2xl">&times;</button>
+                <button id="closePopup" class="text-white text-2xl hover:text-gray-200 transition">&times;</button>
             </div>
             
             <div class="p-5 max-h-96 overflow-y-auto">
                 <div class="space-y-4">
                     <div class="flex justify-between border-b pb-2">
                         <span class="font-medium text-gray-600">Name:</span>
-                        <span id="previewName" class="text-gray-800"></span>
+                        <span id="previewName" class="text-gray-800 text-right"></span>
                     </div>
                     <div class="flex justify-between border-b pb-2">
                         <span class="font-medium text-gray-600">Registration No:</span>
-                        <span id="previewRegdNo" class="text-gray-800"></span>
+                        <span id="previewRegdNo" class="text-gray-800 text-right"></span>
                     </div>
                     <div class="flex justify-between border-b pb-2">
                         <span class="font-medium text-gray-600">Room No:</span>
-                        <span id="previewRoomNo" class="text-gray-800"></span>
+                        <span id="previewRoomNo" class="text-gray-800 text-right"></span>
                     </div>
                     <div class="flex justify-between border-b pb-2">
                         <span class="font-medium text-gray-600">Phone No:</span>
-                        <span id="previewPhoneNo" class="text-gray-800"></span>
+                        <span id="previewPhoneNo" class="text-gray-800 text-right"></span>
                     </div>
                     <div class="flex justify-between border-b pb-2">
                         <span class="font-medium text-gray-600">Payment Screenshot:</span>
-                        <span id="previewScreenshot" class="text-gray-800"></span>
+                        <span id="previewScreenshot" class="text-gray-800 text-right text-sm"></span>
                     </div>
                     <div class="flex justify-between border-b pb-2">
                         <span class="font-medium text-gray-600">Questions:</span>
-                        <span id="previewQuestion" class="text-gray-800"></span>
+                        <span id="previewQuestion" class="text-gray-800 text-right"></span>
                     </div>
                 </div>
             </div>
             
             <div class="p-5 border-t flex gap-3">
-                <button id="editButton" class="flex-1 bg-gray-200 text-gray-800 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">
+                <button id="editButton" class="flex-1 bg-gray-200 text-gray-800 py-3 rounded-lg font-semibold hover:bg-gray-300 active:scale-95 transition-all duration-200">
                     Edit Details
                 </button>
-                <button id="confirmButton" class="flex-1 bg-gradient-to-r from-green-500 to-green-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition">
+                <button id="confirmButton" class="flex-1 bg-gradient-to-r from-green-500 to-green-600 text-white py-3 rounded-lg font-semibold hover:shadow-lg active:scale-95 transition-all duration-200">
                     Confirm Registration
                 </button>
             </div>
@@ -204,7 +244,7 @@
             const submitButton = document.getElementById('submitButton');
             const payButton = document.getElementById('payButton');
             const fileInput = document.getElementById('screenshot');
-            const fileInputButton = fileInput.parentElement.querySelector('div');
+            const fileInputDisplay = document.getElementById('fileInputDisplay');
             const previewPopup = document.getElementById('previewPopup');
             const closePopup = document.getElementById('closePopup');
             const editButton = document.getElementById('editButton');
@@ -219,41 +259,66 @@
                 
                 const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
                 
+                // Try to open UPI app
                 window.location.href = upiUrl;
                 
+                // Fallback message
                 setTimeout(function() {
-                    alert('If UPI app did not open, please manually open your UPI app and send ₹200 to: ' + upiId);
-                }, 500);
+                    if (!document.hidden) {
+                        alert('If UPI app did not open, please manually open your UPI app and send ₹200 to: ' + upiId);
+                    }
+                }, 1000);
             });
             
             // Update file input display
             fileInput.addEventListener('change', function() {
                 if (this.files && this.files[0]) {
-                    const fileName = this.files[0].name.length > 20 
-                        ? this.files[0].name.substring(0, 17) + '...' 
-                        : this.files[0].name;
+                    const file = this.files[0];
+                    const fileName = file.name.length > 20 
+                        ? file.name.substring(0, 17) + '...' 
+                        : file.name;
                         
-                    fileInputButton.innerHTML = `<i class="fas fa-check mr-2"></i>${fileName}`;
-                    fileInputButton.classList.remove('text-gray-500', 'bg-gray-50');
-                    fileInputButton.classList.add('text-green-700', 'bg-green-50', 'border-green-400');
+                    fileInputDisplay.innerHTML = `<i class="fas fa-check mr-2"></i>${fileName}`;
+                    fileInputDisplay.classList.remove('text-gray-500', 'bg-gray-50', 'border-gray-300');
+                    fileInputDisplay.classList.add('text-green-700', 'bg-green-50', 'border-green-400');
                 } else {
-                    fileInputButton.innerHTML = '<i class="fas fa-upload mr-2"></i>Upload Payment Screenshot';
-                    fileInputButton.classList.remove('text-green-700', 'bg-green-50', 'border-green-400');
-                    fileInputButton.classList.add('text-gray-500', 'bg-gray-50');
+                    fileInputDisplay.innerHTML = '<i class="fas fa-upload mr-2"></i>Upload Payment Screenshot';
+                    fileInputDisplay.classList.remove('text-green-700', 'bg-green-50', 'border-green-400');
+                    fileInputDisplay.classList.add('text-gray-500', 'bg-gray-50', 'border-gray-300');
                 }
             });
             
             // Handle form submission preview
             submitButton.addEventListener('click', function() {
-                const name = document.getElementById('name').value;
-                const regdNo = document.getElementById('regd_no').value;
-                const roomNo = document.getElementById('room_no').value;
-                const phoneNo = document.getElementById('phone_no').value;
+                const name = document.getElementById('name').value.trim();
+                const regdNo = document.getElementById('regd_no').value.trim();
+                const roomNo = document.getElementById('room_no').value.trim();
+                const phoneNo = document.getElementById('phone_no').value.trim();
                 const screenshot = document.getElementById('screenshot').files[0];
-                const question = document.getElementById('any_question').value;
+                const question = document.getElementById('any_question').value.trim();
                 
-                if (!name || !regdNo || !roomNo || !phoneNo || !screenshot) {
-                    alert('Please fill in all required fields and upload payment screenshot.');
+                // Validation
+                if (!name) {
+                    alert('Please enter your full name.');
+                    document.getElementById('name').focus();
+                    return;
+                }
+                
+                if (!regdNo) {
+                    alert('Please enter your registration number.');
+                    document.getElementById('regd_no').focus();
+                    return;
+                }
+                
+                if (!roomNo) {
+                    alert('Please enter your room number.');
+                    document.getElementById('room_no').focus();
+                    return;
+                }
+                
+                if (!phoneNo) {
+                    alert('Please enter your phone number.');
+                    document.getElementById('phone_no').focus();
                     return;
                 }
                 
@@ -261,14 +326,21 @@
                 const cleanPhone = phoneNo.replace(/\D/g, '');
                 if (!phoneRegex.test(cleanPhone)) {
                     alert('Please enter a valid 10-digit phone number.');
+                    document.getElementById('phone_no').focus();
+                    return;
+                }
+                
+                if (!screenshot) {
+                    alert('Please upload payment screenshot.');
+                    fileInput.click();
                     return;
                 }
                 
                 // Populate preview popup
-                document.getElementById('previewName').textContent = name;
-                document.getElementById('previewRegdNo').textContent = regdNo;
-                document.getElementById('previewRoomNo').textContent = roomNo;
-                document.getElementById('previewPhoneNo').textContent = phoneNo;
+                document.getElementById('previewName').textContent = name || 'Not provided';
+                document.getElementById('previewRegdNo').textContent = regdNo || 'Not provided';
+                document.getElementById('previewRoomNo').textContent = roomNo || 'Not provided';
+                document.getElementById('previewPhoneNo').textContent = phoneNo || 'Not provided';
                 document.getElementById('previewScreenshot').textContent = screenshot ? screenshot.name : 'Not uploaded';
                 document.getElementById('previewQuestion').textContent = question || 'None';
                 
@@ -305,7 +377,7 @@
             });
             
             // Add input validation styles
-            const inputs = document.querySelectorAll('input[type="text"]');
+            const inputs = document.querySelectorAll('input[type="text"], input[type="tel"]');
             inputs.forEach(input => {
                 input.addEventListener('blur', function() {
                     if (this.value.trim() !== '') {
@@ -314,7 +386,31 @@
                         this.classList.remove('border-green-400', 'bg-green-50');
                     }
                 });
+                
+                // Real-time validation for phone number
+                if (input.id === 'phone_no') {
+                    input.addEventListener('input', function() {
+                        this.value = this.value.replace(/\D/g, '').substring(0, 10);
+                    });
+                }
             });
+            
+            // Prevent form from being submitted on Enter key press
+            form.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && e.target.type !== 'submit') {
+                    e.preventDefault();
+                }
+            });
+            
+            // Handle mobile viewport height issues
+            function setViewportHeight() {
+                let vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+            }
+            
+            setViewportHeight();
+            window.addEventListener('resize', setViewportHeight);
+            window.addEventListener('orientationchange', setViewportHeight);
         });
     </script>
 </body>
